@@ -1,5 +1,133 @@
 public class App {
 
+    static class InsertionSorter extends Sorter {
+        public InsertionSorter(int[] integers, char[] characters, String[] strings) {
+            super(integers, characters, strings);
+        }
+
+        public void insertionSort(String[] arr, boolean ascending) {
+            for (int i = 1; i < arr.length; i++) {
+                String key = arr[i];
+                int j = i - 1;
+                while (j >= 0 && (ascending ? arr[j].compareTo(key) > 0 : arr[j].compareTo(key) < 0)) {
+                    arr[j + 1] = arr[j];
+                    j--;
+                }
+                arr[j + 1] = key;
+            }
+        }
+
+        public void insertionSort(int[] arr, boolean ascending) {
+            for (int i = 1; i < arr.length; i++) {
+                int key = arr[i], j = i - 1;
+                while (j >= 0 && (ascending ? arr[j] > key : arr[j] < key)) {
+                    arr[j + 1] = arr[j];
+                    j--;
+                }
+                arr[j + 1] = key;
+            }
+        }
+
+        public void insertionSort(char[] arr, boolean ascending) {
+            for (int i = 1; i < arr.length; i++) {
+                char key = arr[i];
+                int j = i - 1;
+                while (j >= 0 && (ascending ? arr[j] > key : arr[j] < key)) {
+                    arr[j + 1] = arr[j];
+                    j--;
+                }
+                arr[j + 1] = key;
+            }
+        }
+    }
+
+    static class QuickSorter extends Sorter {
+        public QuickSorter(int[] integers, char[] characters, String[] strings) {
+            super(integers, characters, strings);
+        }
+
+        public void quickSort(String[] arr, int low, int high, boolean ascending) {
+            if (low < high) {
+                int pi = partition(arr, low, high, ascending);
+                quickSort(arr, low, pi - 1, ascending);
+                quickSort(arr, pi + 1, high, ascending);
+            }
+        }
+
+        private int partition(String[] arr, int low, int high, boolean ascending) {
+            String pivot = arr[high];
+            int i = low - 1;
+            for (int j = low; j < high; j++) {
+                if ((ascending ? arr[j].compareTo(pivot) < 0 : arr[j].compareTo(pivot) > 0)) {
+                    i++;
+                    swap(arr, i, j);
+                }
+            }
+            swap(arr, i + 1, high);
+            return i + 1;
+        }
+
+        public void quickSort(int[] arr, int low, int high, boolean ascending) {
+            if (low < high) {
+                int pi = partition(arr, low, high, ascending);
+                quickSort(arr, low, pi - 1, ascending);
+                quickSort(arr, pi + 1, high, ascending);
+            }
+        }
+
+        private int partition(int[] arr, int low, int high, boolean ascending) {
+            int pivot = arr[high];
+            int i = low - 1;
+            for (int j = low; j < high; j++) {
+                if ((ascending ? arr[j] < pivot : arr[j] > pivot)) {
+                    i++;
+                    swap(arr, i, j);
+                }
+            }
+            swap(arr, i + 1, high);
+            return i + 1;
+        }
+
+        private void swap(String[] arr, int i, int j) {
+            String temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+
+        private void swap(int[] arr, int i, int j) {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+
+        private void swap(char[] arr, int i, int j) {
+            char temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+
+        public void quickSort(char[] arr, int low, int high, boolean ascending) {
+            if (low < high) {
+                int pi = partition(arr, low, high, ascending);
+                quickSort(arr, low, pi - 1, ascending);
+                quickSort(arr, pi + 1, high, ascending);
+            }
+        }
+
+        private int partition(char[] arr, int low, int high, boolean ascending) {
+            char pivot = arr[high];
+            int i = low - 1;
+            for (int j = low; j < high; j++) {
+                if ((ascending ? arr[j] < pivot : arr[j] > pivot)) {
+                    i++;
+                    swap(arr, i, j);
+                }
+            }
+            swap(arr, i + 1, high);
+            return i + 1;
+        }
+    }
+
     static class Sorter {
         int[] integers;
         char[] characters;
@@ -30,134 +158,6 @@ public class App {
                 System.out.print(str + " ");
             }
             System.out.println();
-        }
-    }
-
-    static class QuickSorter extends Sorter {
-        public QuickSorter(int[] integers, char[] characters, String[] strings) {
-            super(integers, characters, strings);
-        }
-
-        private int partition(int[] arr, int low, int high, boolean ascending) {
-            int pivot = arr[high];
-            int i = low - 1;
-            for (int j = low; j < high; j++) {
-                if ((ascending ? arr[j] < pivot : arr[j] > pivot)) {
-                    i++;
-                    swap(arr, i, j);
-                }
-            }
-            swap(arr, i + 1, high);
-            return i + 1;
-        }
-
-        public void quickSort(int[] arr, int low, int high, boolean ascending) {
-            if (low < high) {
-                int pi = partition(arr, low, high, ascending);
-                quickSort(arr, low, pi - 1, ascending);
-                quickSort(arr, pi + 1, high, ascending);
-            }
-        }
-
-        private int partition(char[] arr, int low, int high, boolean ascending) {
-            char pivot = arr[high];
-            int i = low - 1;
-            for (int j = low; j < high; j++) {
-                if ((ascending ? arr[j] < pivot : arr[j] > pivot)) {
-                    i++;
-                    swap(arr, i, j);
-                }
-            }
-            swap(arr, i + 1, high);
-            return i + 1;
-        }
-
-        public void quickSort(char[] arr, int low, int high, boolean ascending) {
-            if (low < high) {
-                int pi = partition(arr, low, high, ascending);
-                quickSort(arr, low, pi - 1, ascending);
-                quickSort(arr, pi + 1, high, ascending);
-            }
-        }
-
-        private int partition(String[] arr, int low, int high, boolean ascending) {
-            String pivot = arr[high];
-            int i = low - 1;
-            for (int j = low; j < high; j++) {
-                if ((ascending ? arr[j].compareTo(pivot) < 0 : arr[j].compareTo(pivot) > 0)) {
-                    i++;
-                    swap(arr, i, j);
-                }
-            }
-            swap(arr, i + 1, high);
-            return i + 1;
-        }
-
-        public void quickSort(String[] arr, int low, int high, boolean ascending) {
-            if (low < high) {
-                int pi = partition(arr, low, high, ascending);
-                quickSort(arr, low, pi - 1, ascending);
-                quickSort(arr, pi + 1, high, ascending);
-            }
-        }
-
-        private void swap(int[] arr, int i, int j) {
-            int temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-        }
-
-        private void swap(char[] arr, int i, int j) {
-            char temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-        }
-
-        private void swap(String[] arr, int i, int j) {
-            String temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-        }
-    }
-
-    static class InsertionSorter extends Sorter {
-        public InsertionSorter(int[] integers, char[] characters, String[] strings) {
-            super(integers, characters, strings);
-        }
-
-        public void insertionSort(int[] arr, boolean ascending) {
-            for (int i = 1; i < arr.length; i++) {
-                int key = arr[i], j = i - 1;
-                while (j >= 0 && (ascending ? arr[j] > key : arr[j] < key)) {
-                    arr[j + 1] = arr[j];
-                    j--;
-                }
-                arr[j + 1] = key;
-            }
-        }
-
-        public void insertionSort(char[] arr, boolean ascending) {
-            for (int i = 1; i < arr.length; i++) {
-                char key = arr[i];
-                int j = i - 1;
-                while (j >= 0 && (ascending ? arr[j] > key : arr[j] < key)) {
-                    arr[j + 1] = arr[j];
-                    j--;
-                }
-                arr[j + 1] = key;
-            }
-        }
-
-        public void insertionSort(String[] arr, boolean ascending) {
-            for (int i = 1; i < arr.length; i++) {
-                String key = arr[i];
-                int j = i - 1;
-                while (j >= 0 && (ascending ? arr[j].compareTo(key) > 0 : arr[j].compareTo(key) < 0)) {
-                    arr[j + 1] = arr[j];
-                    j--;
-                }
-                arr[j + 1] = key;
-            }
         }
     }
 

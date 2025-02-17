@@ -1,171 +1,204 @@
 public class App {
+    
+    static class Sorting {
+        int[] dataInt;
+        char[] dataChar;
+        String[] dataString;
 
-    static class Sorter {
-        public Sorter() {
-            System.out.println("Pembangun Sorter Dipanggil");
+        public Sorting(int[] dataInt, char[] dataChar, String[] dataString) {
+            this.dataInt = dataInt;
+            this.dataChar = dataChar;
+            this.dataString = dataString;
         }
 
-        public void tampilkanData(int[] data) {
-            for (int i : data) {
-                System.out.print(i + " ");
+        public void printArray(int[] arr) {
+            for (int num : arr) {
+                System.out.print(num + " ");
             }
             System.out.println();
         }
 
-        public void tampilkanData(char[] data) {
-            for (char c : data) {
+        public void printArray(char[] arr) {
+            for (char c : arr) {
                 System.out.print(c + " ");
             }
             System.out.println();
         }
 
-        public void tampilkanData(String[] data) {
-            for (String str : data) {
+        public void printArray(String[] arr) {
+            for (String str : arr) {
                 System.out.print(str + " ");
             }
             System.out.println();
         }
     }
 
-    static class QuickSortSorter extends Sorter {
-        public QuickSortSorter() {
-            super();
-            System.out.println("Pembangun QuickSortSorter Dipanggil");
+    static class QuickSort extends Sorting {
+        public QuickSort(int[] dataInt, char[] dataChar, String[] dataString) {
+            super(dataInt, dataChar, dataString);
         }
 
-        public void quickSort(int[] data, int rendah, int tinggi) {
-            if (rendah < tinggi) {
-                int pivot = partisi(data, rendah, tinggi);
-                quickSort(data, rendah, pivot - 1);
-                quickSort(data, pivot + 1, tinggi);
-            }
-        }
-
-        private int partisi(int[] data, int rendah, int tinggi) {
-            int pivot = data[tinggi];
-            int i = rendah - 1;
-            for (int j = rendah; j < tinggi; j++) {
-                if (data[j] <= pivot) {
+        private int partition(int[] arr, int low, int high, boolean ascending) {
+            int pivot = arr[high];
+            int i = low - 1;
+            for (int j = low; j < high; j++) {
+                if ((ascending ? arr[j] < pivot : arr[j] > pivot)) {
                     i++;
-                    swap(data, i, j);
+                    int temp = arr[i]; arr[i] = arr[j]; arr[j] = temp;
                 }
             }
-            swap(data, i + 1, tinggi);
+            int temp = arr[i + 1]; arr[i + 1] = arr[high]; arr[high] = temp;
             return i + 1;
         }
 
-        public void quickSort(char[] data, int rendah, int tinggi) {
-            if (rendah < tinggi) {
-                int pivot = partisi(data, rendah, tinggi);
-                quickSort(data, rendah, pivot - 1);
-                quickSort(data, pivot + 1, tinggi);
+        public void quickSort(int[] arr, int low, int high, boolean ascending) {
+            if (low < high) {
+                int pi = partition(arr, low, high, ascending);
+                quickSort(arr, low, pi - 1, ascending);
+                quickSort(arr, pi + 1, high, ascending);
             }
         }
 
-        private int partisi(char[] data, int rendah, int tinggi) {
-            char pivot = data[tinggi];
-            int i = rendah - 1;
-            for (int j = rendah; j < tinggi; j++) {
-                if (data[j] <= pivot) {
+        private int partition(char[] arr, int low, int high, boolean ascending) {
+            char pivot = arr[high];
+            int i = low - 1;
+            for (int j = low; j < high; j++) {
+                if ((ascending ? arr[j] < pivot : arr[j] > pivot)) {
                     i++;
-                    swap(data, i, j);
+                    char temp = arr[i]; arr[i] = arr[j]; arr[j] = temp;
                 }
             }
-            swap(data, i + 1, tinggi);
+            char temp = arr[i + 1]; arr[i + 1] = arr[high]; arr[high] = temp;
             return i + 1;
         }
 
-        private void swap(int[] data, int i, int j) {
-            int temp = data[i];
-            data[i] = data[j];
-            data[j] = temp;
+        public void quickSort(char[] arr, int low, int high, boolean ascending) {
+            if (low < high) {
+                int pi = partition(arr, low, high, ascending);
+                quickSort(arr, low, pi - 1, ascending);
+                quickSort(arr, pi + 1, high, ascending);
+            }
         }
 
-        private void swap(char[] data, int i, int j) {
-            char temp = data[i];
-            data[i] = data[j];
-            data[j] = temp;
+        private int partition(String[] arr, int low, int high, boolean ascending) {
+            String pivot = arr[high];
+            int i = low - 1;
+            for (int j = low; j < high; j++) {
+                if ((ascending ? arr[j].compareTo(pivot) < 0 : arr[j].compareTo(pivot) > 0)) {
+                    i++;
+                    String temp = arr[i]; arr[i] = arr[j]; arr[j] = temp;
+                }
+            }
+            String temp = arr[i + 1]; arr[i + 1] = arr[high]; arr[high] = temp;
+            return i + 1;
+        }
+
+        public void quickSort(String[] arr, int low, int high, boolean ascending) {
+            if (low < high) {
+                int pi = partition(arr, low, high, ascending);
+                quickSort(arr, low, pi - 1, ascending);
+                quickSort(arr, pi + 1, high, ascending);
+            }
         }
     }
 
-    static class InsertionSortSorter extends Sorter {
-        public InsertionSortSorter() {
-            super();
-            System.out.println("Pembangun InsertionSortSorter Dipanggil");
+    static class InsertionSort extends Sorting {
+        public InsertionSort(int[] dataInt, char[] dataChar, String[] dataString) {
+            super(dataInt, dataChar, dataString);
         }
 
-        public void insertionSort(int[] data) {
-            for (int i = 1; i < data.length; i++) {
-                int kunci = data[i];
-                int j = i - 1;
-                while (j >= 0 && data[j] > kunci) {
-                    data[j + 1] = data[j];
-                    j--;
+        public void insertionSort(int[] arr, boolean ascending) {
+            for (int i = 1; i < arr.length; i++) {
+                int key = arr[i], j = i - 1;
+                while (j >= 0 && (ascending ? arr[j] > key : arr[j] < key)) {
+                    arr[j + 1] = arr[j]; j--;
                 }
-                data[j + 1] = kunci;
+                arr[j + 1] = key;
             }
         }
 
-        public void insertionSort(char[] data) {
-            for (int i = 1; i < data.length; i++) {
-                char kunci = data[i];
-                int j = i - 1;
-                while (j >= 0 && data[j] > kunci) {
-                    data[j + 1] = data[j];
-                    j--;
+        public void insertionSort(char[] arr, boolean ascending) {
+            for (int i = 1; i < arr.length; i++) {
+                char key = arr[i]; int j = i - 1;
+                while (j >= 0 && (ascending ? arr[j] > key : arr[j] < key)) {
+                    arr[j + 1] = arr[j]; j--;
                 }
-                data[j + 1] = kunci;
+                arr[j + 1] = key;
             }
         }
 
-        public void insertionSort(String[] data) {
-            for (int i = 1; i < data.length; i++) {
-                String kunci = data[i];
-                int j = i - 1;
-                while (j >= 0 && data[j].compareTo(kunci) > 0) {
-                    data[j + 1] = data[j];
-                    j--;
+        public void insertionSort(String[] arr, boolean ascending) {
+            for (int i = 1; i < arr.length; i++) {
+                String key = arr[i]; int j = i - 1;
+                while (j >= 0 && (ascending ? arr[j].compareTo(key) > 0 : arr[j].compareTo(key) < 0)) {
+                    arr[j + 1] = arr[j]; j--;
                 }
-                data[j + 1] = kunci;
+                arr[j + 1] = key;
             }
         }
     }
 
     public static void main(String[] args) {
-        int[] DATAint = { 8, 9, 10, 1, 3, 4, 11, 15, 100, 55, 2, 5, 200 };
-        char[] DATAchar = { 'v', 'b', 'a', 'z', 'v', 'c', 'f' };
-        String[] DATAstring = { "CODING", "kelas", "XI", "IPA", "I" };
+        int[] dataInt = {8, 9, 10, 1, 3, 4, 11, 15, 100, 55, 2, 5, 200};
+        char[] dataChar = {'v', 'b', 'a', 'z', 'v', 'c', 'f'};
+        String[] dataString = {"CODING", "kelas", "XI", "IPA", "I"};
 
-        System.out.println("Data Awal untuk int[]:");
-        Sorter sorter = new Sorter();
-        sorter.tampilkanData(DATAint);
+        System.out.println("\nData Asli:");
+        System.out.print("Int: ");
+        new Sorting(dataInt, dataChar, dataString).printArray(dataInt);
+        System.out.print("Char: ");
+        new Sorting(dataInt, dataChar, dataString).printArray(dataChar);
+        System.out.print("String: ");
+        new Sorting(dataInt, dataChar, dataString).printArray(dataString);
 
-        QuickSortSorter quickSort = new QuickSortSorter();
-        System.out.println("Data setelah QuickSort Ascending untuk int[]:");
-        quickSort.quickSort(DATAint, 0, DATAint.length - 1);
-        quickSort.tampilkanData(DATAint);
+        System.out.println("\n=== QuickSort (Descending) ===");
+        QuickSort qs = new QuickSort(dataInt.clone(), dataChar.clone(), dataString.clone());
+        qs.quickSort(dataInt, 0, dataInt.length - 1, false);
+        qs.quickSort(dataChar, 0, dataChar.length - 1, false);
+        qs.quickSort(dataString, 0, dataString.length - 1, false);
 
-        InsertionSortSorter insertionSort = new InsertionSortSorter();
-        System.out.println("Data setelah InsertionSort Ascending untuk int[]:");
-        insertionSort.insertionSort(DATAint);
-        insertionSort.tampilkanData(DATAint);
+        System.out.print("Int yang Terurut (Descending): ");
+        qs.printArray(dataInt);
+        System.out.print("Char yang Terurut (Descending): ");
+        qs.printArray(dataChar);
+        System.out.print("String yang Terurut (Descending): ");
+        qs.printArray(dataString);
 
-        System.out.println("Data Awal untuk char[]:");
-        sorter.tampilkanData(DATAchar);
+        System.out.println("\n=== QuickSort (Ascending) ===");
+        qs.quickSort(dataInt, 0, dataInt.length - 1, true);
+        qs.quickSort(dataChar, 0, dataChar.length - 1, true);
+        qs.quickSort(dataString, 0, dataString.length - 1, true);
 
-        System.out.println("Data setelah QuickSort Ascending untuk char[]:");
-        quickSort.quickSort(DATAchar, 0, DATAchar.length - 1);
-        quickSort.tampilkanData(DATAchar);
+        System.out.print("Int yang Terurut (Ascending): ");
+        qs.printArray(dataInt);
+        System.out.print("Char yang Terurut (Ascending): ");
+        qs.printArray(dataChar);
+        System.out.print("String yang Terurut (Ascending): ");
+        qs.printArray(dataString);
 
-        System.out.println("Data setelah InsertionSort Ascending untuk char[]:");
-        insertionSort.insertionSort(DATAchar);
-        insertionSort.tampilkanData(DATAchar);
+        System.out.println("\n=== Insertion Sort (Descending) ===");
+        InsertionSort is = new InsertionSort(dataInt.clone(), dataChar.clone(), dataString.clone());
+        is.insertionSort(dataInt, false);
+        is.insertionSort(dataChar, false);
+        is.insertionSort(dataString, false);
 
-        System.out.println("Data Awal untuk String[]:");
-        sorter.tampilkanData(DATAstring);
+        System.out.print("Int yang Terurut (Descending): ");
+        is.printArray(dataInt);
+        System.out.print("Char yang Terurut (Descending): ");
+        is.printArray(dataChar);
+        System.out.print("String yang Terurut (Descending): ");
+        is.printArray(dataString);
 
-        System.out.println("Data setelah InsertionSort Ascending untuk String[]:");
-        insertionSort.insertionSort(DATAstring);
-        insertionSort.tampilkanData(DATAstring);
+        System.out.println("\n=== Insertion Sort (Ascending) ===");
+        is.insertionSort(dataInt, true);
+        is.insertionSort(dataChar, true);
+        is.insertionSort(dataString, true);
+
+        System.out.print("Int yang Terurut (Ascending): ");
+        is.printArray(dataInt);
+        System.out.print("Char yang Terurut (Ascending): ");
+        is.printArray(dataChar);
+        System.out.print("String yang Terurut (Ascending): ");
+        is.printArray(dataString);
     }
 }
